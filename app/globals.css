@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "VC Garamond";
+  src: url("/VCGaramond.otf") format("opentype");
+}
+
+@font-face {
+  font-family: 'Phantom Sans';
+  src: url('https://assets.hackclub.com/fonts/Phantom_Sans_0.7/Regular.woff') format('woff'),
+       url('https://assets.hackclub.com/fonts/Phantom_Sans_0.7/Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Phantom Sans';
+  src: url('https://assets.hackclub.com/fonts/Phantom_Sans_0.7/Bold.woff') format('woff'),
+       url('https://assets.hackclub.com/fonts/Phantom_Sans_0.7/Bold.woff2') format('woff2');
+  font-weight: bold;
+  font-style: normal;
+}
+
+html {
+  @apply scroll-smooth;
+}
+
+body {
+  @apply bg-gemini-smoke font-sans text-gemini-black;
+}
+
+h1,
+h2 {
+  @apply font-sans font-bold text-primary;
+}
+
+h3,
+h4,
+h5,
+h6 {
+  @apply font-sans text-gemini-black;
+}
+
+.badge {
+  @apply rounded-md text-primary border-2 border-primary px-4 py-2 font-medium text-xl font-sans text-center w-fit;
+}
+
+/* Hack Club button styles */
+.btn {
+  @apply rounded-lg px-8 py-2 font-medium text-center transition duration-200 shadow-sm;
+}
+
+.btn-primary {
+  @apply bg-primary text-white hover:bg-secondary;
+}
+
+.btn-outline {
+  @apply border-2 border-primary text-primary hover:bg-primary hover:text-white;
+}
+
+.header-gradient {
+  background: linear-gradient(135deg, #3DDC84 0%, #2DA568 50%, #1B5E20 100%);
+}
+
+.section-padding {
+  @apply py-12 md:py-16 lg:py-24;
+}
+
+.card {
+  @apply bg-white rounded-xl shadow-md hover:shadow-lg transition duration-200 overflow-hidden;
+}
+
+/* Fixes Tailwind h-screen on iPhones */
+@supports (-webkit-touch-callout: none) {
+  .h-screen {
+    height: -webkit-fill-available;
+  }
+}
+
+/* Fixes outline style for inputs on Safari */
+input:focus {
+  outline: none;
+}
+
+footer a {
+  @apply decoration-dotted underline italic hover:decoration-wavy hover:text-primary;
+}
+
+.carousel .slide img {
+  width: auto !important;
+}
+
+.carousel img {
+  width: auto !important;
+}
