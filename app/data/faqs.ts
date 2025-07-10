@@ -11,7 +11,7 @@ export const faqs: Faq[] = [
   {
     question: "How much does it cost?",
     answer:
-      "100% free– everything from building the app from scratch to publishing it on the App Store should cost you no money! The whole program is funded by donations to The Hack Foundation.",
+      "100% free– everything from building the app from scratch to publishing it on the Play Store should cost you no money! The whole program is funded by donations to The Hack Foundation.",
   },
   {
     question: "Who is eligible?",
@@ -21,11 +21,11 @@ export const faqs: Faq[] = [
   {
     question: "What do I need?",
     answer:
-      "A Macbook device to run XCode for iOS development (or you can use Expo on VSCode). If you don't have an iPhone to test your apps, you can use the Simulator app that comes with XCode!",
+      "Any device that can run Android Studio.",
   },
   {
     question: "I need help!",
-    answer: "Get it in the #cider channel of the Hack Club Slack.",
+    answer: "Get it in the #gemini channel of the Hack Club Slack.",
   },
   {
     question: "What projects are allowed?",
@@ -35,6 +35,6 @@ export const faqs: Faq[] = [
   {
     question: "Something else?",
     answer:
-      "Join the Hack Club Slack today and ask in the #cider channel. We're here to help! Alternatively, feel free to DM @Mohamad with any questions you have.",
+      "Join the Hack Club Slack today and ask in the #gemini channel. We're here to help! Alternatively, feel free to DM @Mohamad with any questions you have.",
   },
 ]; 
