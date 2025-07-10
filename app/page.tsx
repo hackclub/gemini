@@ -218,7 +218,7 @@ export default function Home() {
       </section>
       <section className="section-padding flex flex-col items-center gap-12 justify-center w-11/12 max-w-6xl">
         <div className="text-center">
-          <h2 className="text-4xl md:text-5xl mb-4">Cider tastes better with friends...</h2>
+          <h2 className="text-4xl md:text-5xl mb-4">Check out what others built through Gemini!</h2>
           <p className="text-xl text-hack-muted max-w-3xl mx-auto">
             Check out what others in the community have built!
           </p>
