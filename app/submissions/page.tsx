@@ -69,7 +69,7 @@ export default function SubmissionsPage() {
           App Gallery
         </h1>
         <p className="text-xl md:text-2xl opacity-95 max-w-2xl mx-auto font-light">
-          Discover amazing iOS apps created by the Hack Club community!
+          Discover amazing Android apps created by the Hack Club community!
         </p>
       </div>
       
