@@ -96,7 +96,7 @@ export default function Home() {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-4">
             <a
-              href="https://forms.hackclub.com/t/e5LgW4Qqtbus"
+              href="https://submit.hackclub.com/gemini"
               target="_blank"
               className="btn bg-white backdrop-blur-sm text-green-700 border-2 border-white px-6 py-3 font-bold text-lg rounded-lg hover:bg-white/20 transition-all"
               rel="noopener noreferrer"
