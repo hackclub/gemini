@@ -7,14 +7,20 @@ export interface Step {
 
 export const steps: Step[] = [
   {
+    heading: "Pitch your idea",
+    description: "Submit the proposal form to pitch your idea. We'll review it and get back to you.",
+    link: "https://forms.hackclub.com/t/3KUTJRwTFous",
+    primary: true,
+  },
+  {
     heading: "Build your app",
     description: "Flesh out your app even more and try to meet all the submission requirements.",
   },
   {
     heading: "Submit your app",
     description:
-      "Make a pull request adding a folder with your app's name in the submissions folder.",
-    link: "https://github.com/hackclub/gemini#make-your-pr",
+      "Submit your app to the submission form.",
+    link: "https://forms.hackclub.com/t/e5LgW4Qqtbus",
     primary: true,
   },
   {
@@ -26,6 +32,12 @@ export const steps: Step[] = [
     heading: "Publish your app on the Play Store",
     description:
       "Publish your app on the Play Store.",
+    primary: true,
+  },
+  {
+    heading: "Receive Free Android Merch!",
+    description:
+      "Choose from a variety of free Android merch!",
     primary: true,
   },
 ]; 
