@@ -1,5 +1,4 @@
 import { afterEach, describe, expect, mock, test } from "bun:test";
-import { NextRequest } from "next/server";
 import { PUBLIC_SUBMISSION_FIELDS, toPublicSubmission } from "../app/lib/public-submission";
 
 const fields: Record<string, unknown> = {
@@ -34,12 +33,6 @@ function configure() {
   process.env.AIRTABLE_API_KEY = "synthetic-airtable-token";
   process.env.AIRTABLE_BASE_ID = "synthetic-base";
 }
-function request(authorization?: string) {
-  return new NextRequest("http://localhost/api/submission", {
-    headers: authorization ? { authorization } : {},
-  });
-}
-
 const publicProject = {
   id: "recSynthetic", name: "public-handle", description: "A synthetic Android project",
   githubUrl: "https://github.com/example/app", playableUrl: "https://example.com/app",
@@ -60,40 +53,38 @@ describe("submission privacy", () => {
     });
   });
 
-  test("legacy endpoint fails closed without a secret", async () => {
+  test("submissions are public without a secret and exclude private data", async () => {
     configure();
     delete process.env.API_SECRET_KEY;
-    const response = await legacyGET(request());
-    expect(response.status).toBe(503);
-    expect(response.headers.get("cache-control")).toBe("no-store");
-    expect(select).not.toHaveBeenCalled();
-  });
-
-  test("missing, wrong, malformed, or query-string secrets cannot read Airtable", async () => {
-    configure();
-    for (const header of [undefined, "Bearer wrong", "synthetic-secret", "Basic synthetic-secret", "Bearer synthetic-secret-extra"]) {
-      expect((await legacyGET(request(header))).status).toBe(401);
-    }
-    expect((await legacyGET(new NextRequest("http://localhost/api/submission?API_SECRET_KEY=synthetic-secret"))).status).toBe(401);
-    expect(select).not.toHaveBeenCalled();
-  });
-
-  test("authenticated legacy response still excludes private data", async () => {
-    configure();
-    const response = await legacyGET(request("Bearer synthetic-secret"));
+    const response = await legacyGET();
     expect(response.status).toBe(200);
+    expect(response.headers.get("cache-control")).toBe("no-store");
     expect(await response.json()).toEqual([publicProject]);
-    expect(select).toHaveBeenCalledWith({ view: "Granted", fields: PUBLIC_SUBMISSION_FIELDS });
+    expect(select).toHaveBeenCalledWith({ view: "Granted" });
   });
 
-  test("unauthenticated gallery requests and returns only public fields", async () => {
+  test("missing optional fields cannot reject the Airtable query or leak names", async () => {
+    configure();
+    select.mockImplementationOnce(() => ({ all: async () => [{
+      id: "recOptionalFieldsMissing",
+      get: (field: string) => field === "GitHub username" ? undefined : fields[field],
+    }] }));
+    const response = await publicGET();
+    expect(response.status).toBe(200);
+    const payload = await response.json();
+    expect(payload[0].name).toBe("Android app");
+    expect(JSON.stringify(payload)).not.toContain("PRIVATE_");
+    expect(select).toHaveBeenCalledWith({ view: "Granted" });
+  });
+
+  test("unauthenticated gallery returns only public fields", async () => {
     configure();
     delete process.env.API_SECRET_KEY;
     const response = await publicGET();
     expect(response.status).toBe(200);
     expect(response.headers.get("cache-control")).toBe("no-store");
     expect(await response.json()).toEqual([publicProject]);
-    expect(select).toHaveBeenCalledWith({ view: "Granted", fields: PUBLIC_SUBMISSION_FIELDS });
+    expect(select).toHaveBeenCalledWith({ view: "Granted" });
   });
 
   test("gallery without Airtable credentials fails without querying", async () => {

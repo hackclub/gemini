@@ -1,6 +1,6 @@
 import Airtable from "airtable";
 import { NextResponse } from "next/server";
-import { PUBLIC_SUBMISSION_FIELDS, toPublicSubmission } from "./public-submission";
+import { toPublicSubmission } from "./public-submission";
 
 export async function getPublicSubmissionsResponse() {
   const headers = { "Cache-Control": "no-store" };
@@ -10,9 +10,10 @@ export async function getPublicSubmissionsResponse() {
 
   try {
     const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(process.env.AIRTABLE_BASE_ID);
+    // Optional display fields may not exist in every program base. Let Airtable
+    // return the view, then enforce the public allowlist in the serializer.
     const records = await base("YSWS Project Submission").select({
       view: "Granted",
-      fields: PUBLIC_SUBMISSION_FIELDS,
     }).all();
     return NextResponse.json(records.map(toPublicSubmission).reverse(), { headers });
   } catch {
