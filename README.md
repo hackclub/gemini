@@ -1,38 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Gemini
 
-## Getting Started
+Gemini is the Hack Club Android YSWS website, built with Next.js.
 
-First, run the development server:
+## Development
+
+Use Bun 1.4.2 (the package manager and runtime):
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+bun install --frozen-lockfile
+bun run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000. Required server environment variables:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- `AIRTABLE_API_KEY`: Airtable token with access to the program base.
+- `AIRTABLE_BASE_ID`: program base ID.
+- `API_SECRET_KEY`: server-only bearer secret for the legacy `/api/submission` route.
+  Without this variable the route returns 503; missing or invalid authorization
+  returns 401. Never expose the secret through `NEXT_PUBLIC_*` or browser code.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Public gallery and privacy
 
-## Learn More
+The homepage and gallery use `/api/projects`. Only records from the `Granted`
+view are shown, and only description, GitHub username, code URL, playable URL,
+and screenshot URLs are requested. Legal names, Slack IDs, location fields, and
+coordinates are never returned. Gallery titles use the public GitHub username
+(with an "Android app" fallback). `/api/submission` requires
+`Authorization: Bearer <API_SECRET_KEY>` and returns the same limited projection.
+Neither endpoint provides a private submission export.
 
-To learn more about Next.js, take a look at the following resources:
+The email signup `/api/submit` remains public and write-only.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Tooling
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Linting uses Oxlint with native TypeScript, React, Next.js, and accessibility
+rules. Next.js is kept on the latest 15.x release. TypeScript is kept on the
+latest compatible 6.x release because Next.js 15 requires the JavaScript
+compiler API removed in TypeScript 7. Tailwind 4 uses its PostCSS adapter
+and explicitly loads the existing theme configuration.
 
-## Deploy on Vercel
+The PostCSS and Sharp overrides keep Next.js transitive dependencies patched.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Checks and production
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# gemini
-# gemini
+```bash
+bun run test
+bun run typecheck
+bun run lint
+bun run build
+bun run start
+```
+
+Commit `bun.lock` when dependencies change. Deployment installs should use
+`bun install --frozen-lockfile` and `bun run build`; self-hosted servers should
+start with `bun run start`. These scripts explicitly run Next.js under Bun.
+
+The PII fix must be deployed before reopening Gemini. Purge any previously
+cached `/api/submission` responses at the hosting/CDN layer when deploying;
+the new handlers send `Cache-Control: no-store`.

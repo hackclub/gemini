@@ -28,7 +28,7 @@ export default function SubmissionsPage() {
       try {
         setIsLoading(true);
         setError(null);
-        const data = await Fetcher('/api/submission');
+        const data = await Fetcher('/api/projects');
         setSubmissions(data);
       } catch (err) {
         console.error('Error fetching submissions:', err);
@@ -44,9 +44,7 @@ export default function SubmissionsPage() {
   const filteredSubmissions = submissions.filter(
     (submission) =>
       submission.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      submission.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (submission.location?.city && submission.location.city.toLowerCase().includes(searchTerm.toLowerCase())) ||
-      (submission.location?.country && submission.location.country.toLowerCase().includes(searchTerm.toLowerCase()))
+      submission.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -58,8 +56,12 @@ export default function SubmissionsPage() {
         url="https://cider.hackclub.com/submissions"
       />
       <a href="http://hackclub.com">
-        <img
+        <Image
           src="/flag.svg"
+          width={280}
+          height={158}
+          unoptimized
+          alt="Hack Club flag"
           className="absolute left-4 w-1/4 lg:w-1/12 hover:transform hover:-rotate-12 hover:duration-300 hover:ease-in-out z-40"
         />
       </a>
@@ -73,13 +75,13 @@ export default function SubmissionsPage() {
         </p>
       </div>
       
-      <div className="container mx-auto px-4 py-12 flex-grow">
+      <div className="container mx-auto px-4 py-12 grow">
         <div className="max-w-xl mx-auto mb-12">
           <div className="relative">
             <input
               type="text"
-              placeholder="Search by name, description, author, or location..."
-              className="w-full p-4 pl-12 text-hack-black bg-white border-2 border-gray-100 rounded-xl shadow-md focus:border-red focus:ring-2 focus:ring-red/20 outline-none transition"
+              placeholder="Search by GitHub username or description..."
+              className="w-full p-4 pl-12 text-hack-black bg-white border-2 border-gray-100 rounded-xl shadow-md focus:border-red focus:ring-2 focus:ring-red/20 outline-hidden transition"
               onChange={(e) => setSearchTerm(e.target.value)}
             />
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -143,7 +145,7 @@ export default function SubmissionsPage() {
 function SubmissionModal({ submission, onClose }: SubmissionModalProps) {
   return (
     <motion.div
-      className="fixed inset-0 bg-hack-black/70 flex items-center justify-center p-4 z-50 backdrop-blur-sm"
+      className="fixed inset-0 bg-hack-black/70 flex items-center justify-center p-4 z-50 backdrop-blur-xs"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}

@@ -2,21 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 
-export interface Submission {
-  id: string;
-  name: string;
-  description: string;
-  githubUsername?: string;
-  slackId?: string;
-  githubUrl?: string;
-  playableUrl?: string;
-  images: { url: string }[];
-  location: {
-    city?: string;
-    country?: string;
-    coordinates?: { latitude: number; longitude: number };
-  };
-}
+import type { PublicSubmission as Submission } from "../lib/public-submission";
+export type { PublicSubmission as Submission } from "../lib/public-submission";
 
 interface SubmissionCardProps {
   submission: Submission;
@@ -36,13 +23,14 @@ export function SubmissionCard({ submission, onClick }: SubmissionCardProps) {
           src={submission?.images?.[0]?.url || 'https://assets.hackclub.com/icon-rounded.png'}
           alt={submission?.name}
           fill
+          sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw"
           style={{ objectFit: 'cover' }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+        <div className="absolute inset-0 bg-linear-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
       </div>
-      <div className="p-6 flex flex-col flex-grow">
+      <div className="p-6 flex flex-col grow">
         <h2 className="text-xl font-bold mb-1">{submission.name}</h2>
-        <p className="text-hack-black mb-6 line-clamp-3 flex-grow">{submission.description}</p>
+        <p className="text-hack-black mb-6 line-clamp-3 grow">{submission.description}</p>
         <div className="flex flex-col sm:flex-row gap-3 mt-auto">
           <a
             href={submission.githubUrl}

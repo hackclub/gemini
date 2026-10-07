@@ -1,7 +1,8 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@config "../tailwind.config.ts";
 
+/* Keep component defaults below Tailwind utilities in the cascade. */
+@layer components {
 @font-face {
   font-family: "VC Garamond";
   src: url("/VCGaramond.otf") format("opentype");
@@ -49,7 +50,7 @@ h6 {
 
 /* Hack Club button styles */
 .btn {
-  @apply rounded-lg px-8 py-2 font-medium text-center transition duration-200 shadow-sm;
+  @apply rounded-lg px-8 py-2 font-medium text-center transition duration-200 shadow-xs;
 }
 
 .btn-primary {
@@ -94,4 +95,6 @@ footer a {
 
 .carousel img {
   width: auto !important;
+}
+
 }

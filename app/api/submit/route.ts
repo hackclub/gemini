@@ -1,12 +1,15 @@
 import Airtable from "airtable";
 import { NextRequest, NextResponse } from "next/server";
 
-const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(
-  process.env.AIRTABLE_BASE_ID as string
-);
-
 export async function POST(request: NextRequest): Promise<Response> {
+  if (!process.env.AIRTABLE_API_KEY || !process.env.AIRTABLE_BASE_ID) {
+    return NextResponse.json({ error: "Signup is unavailable" }, { status: 503 });
+  }
+
   try {
+    const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(
+      process.env.AIRTABLE_BASE_ID
+    );
     const body = await request.json();
     
     return new Promise<Response>((resolve) => {

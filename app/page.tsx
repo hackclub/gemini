@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useForm, Controller } from 'react-hook-form';
 import Balancer from 'react-wrap-balancer';
 import Footer from './components/Footer';
@@ -13,23 +14,6 @@ import { SubmissionCard, Submission } from './components/SubmissionCard';
 import HeadObject from './components/HeadObject';
 import MetaData from './components/MetaData';
 
-// const mockSubmissions: Submission[] = [
-//   {
-//     id: '1',
-//     name: 'Sample App',
-//     description: 'A cool app built for the demo.',
-//     images: [{ url: '/banner.png' }],
-//     location: {
-//       city: 'San Francisco',
-//       country: 'USA',
-//       coordinates: {
-//         latitude: 37.7749,
-//         longitude: -122.4194,
-//       },
-//     },
-//   },
-// ];
-
 export default function Home() {
   const { handleSubmit, control, formState: { isSubmitting } } = useForm();
   const [submissionStatus, setSubmissionStatus] = useState<string | null>(null);
@@ -39,7 +23,7 @@ export default function Home() {
   useEffect(() => {
     const fetchSubmissions = async () => {
       try {
-        const response = await fetch('/api/submission');
+        const response = await fetch('/api/projects');
         if (response.ok) {
           const data = await response.json();
           // Show only the first 3 submissions on the home page
@@ -85,7 +69,7 @@ export default function Home() {
       </a>
       <div className="w-full h-full flex flex-col items-center header-gradient min-h-screen pt-16">
         <section className="flex flex-col items-center justify-center min-h-[70vh] gap-6 w-10/12 lg:w-1/2 text-white">
-          <img src="/logo.png" alt="Gemini Android Logo" className="w-80 md:w-96 mb-4" width={384} height={144} />
+          <Image src="/logo.png" alt="Gemini Android Logo" className="w-80 md:w-96 mb-4" width={384} height={144} sizes="(max-width: 767px) 320px, 384px" />
           <h2 className="text-4xl md:text-5xl text-center text-white font-bold">
             <Balancer ratio={0.2}>
               Ship an Android app to the Play Store, get an Android Phone
@@ -98,7 +82,7 @@ export default function Home() {
             <a
               href="https://forms.hackclub.com/t/3KUTJRwTFous"
               target="_blank"
-              className="btn backdrop-blur-sm text-white border-2 border-white px-6 py-3 font-bold text-lg rounded-lg hover:bg-white/20 transition-all"
+              className="btn backdrop-blur-xs text-white border-2 border-white px-6 py-3 font-bold text-lg rounded-lg hover:bg-white/20 transition-all"
               rel="noopener noreferrer"
             >
               Pitch your idea
@@ -106,14 +90,14 @@ export default function Home() {
             <a
               href="https://submit.hackclub.com/gemini"
               target="_blank"
-              className="btn bg-white backdrop-blur-sm text-green-700 border-2 border-white px-6 py-3 font-bold text-lg rounded-lg hover:bg-white/20 transition-all"
+              className="btn bg-white backdrop-blur-xs text-green-700 border-2 border-white px-6 py-3 font-bold text-lg rounded-lg hover:bg-white/20 transition-all"
               rel="noopener noreferrer"
             >
               Submit&nbsp;your&nbsp;app
             </a>
           </div>
         </section>
-        <div className="w-10/12 sm:w-auto max-w-xl mb-16 bg-white/10 backdrop-blur-sm p-6 rounded-xl border border-white/30 shadow-xl">
+        <div className="w-10/12 sm:w-auto max-w-xl mb-16 bg-white/10 backdrop-blur-xs p-6 rounded-xl border border-white/30 shadow-xl">
           <h3 className="text-white text-xl font-bold mb-4">Get your $25 grant and a free Android Phone!</h3>
           <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
             <Controller
@@ -137,7 +121,7 @@ export default function Home() {
                     <input
                       required
                       type="email"
-                      className="text-white placeholder:text-white/70 text-lg w-full rounded-lg border-2 border-white/40 focus:border-white bg-white/5 py-3 pl-10 pr-4 focus:outline-none data-[focus]:outline-2 transition"
+                      className="text-white placeholder:text-white/70 text-lg w-full rounded-lg border-2 border-white/40 focus:border-white bg-white/5 py-3 pl-10 pr-4 focus:outline-hidden data-[focus]:outline-2 transition"
                       placeholder="mohamad@hackclub.com"
                       {...field}
                     />
@@ -250,12 +234,12 @@ export default function Home() {
             </div>
           )}
         </div>
-        <a
+        <Link
           href="/submissions"
           className="btn btn-outline text-lg font-bold px-6 py-3 rounded-lg"
         >
           View all submissions
-        </a>
+        </Link>
       </section>
       <section className="section-padding bg-gray-50 w-full">
         <div className="max-w-6xl mx-auto w-11/12">
@@ -301,7 +285,7 @@ export default function Home() {
                       id="email-signup"
                       required
                       type="email"
-                      className="text-hack-black placeholder:text-hack-muted/60 text-lg w-full rounded-lg border-2 border-gray-200 focus:border-red bg-white py-3 pl-10 pr-4 focus:outline-none shadow-sm"
+                      className="text-hack-black placeholder:text-hack-muted/60 text-lg w-full rounded-lg border-2 border-gray-200 focus:border-red bg-white py-3 pl-10 pr-4 focus:outline-hidden shadow-xs"
                       placeholder="mohamad@hackclub.com"
                       {...field}
                     />
